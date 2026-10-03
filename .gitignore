@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+controlled_test/res_*.json
+.DS_Store

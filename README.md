@@ -2,7 +2,7 @@
 
 **Check whether ground truth synthesised from high-speed video is temporally valid.**
 
-Screening tool, controlled experiment and timing tables for the CADENCE-51 corpus.
+Screening tool, controlled experiment and timing tables for the iPhone-HighFPS corpus.
 
 Code accompanying the paper *Revisiting Ground-Truth Synthesis from High-Speed
 Video: Exact Validity Conditions and an Audited Consumer Capture Corpus*
@@ -28,8 +28,8 @@ Python 3.8 or later. The screening tool needs only numpy.
 | Path | What it is |
 |---|---|
 | `screening_tool/check_timing.py` | Standalone screening tool. Reads the sample-duration table of a QuickTime or MP4 file and reports whether the durations are uniform, what fraction of intervals are held, the effective capture rate, and the parity cost of an intended window size. No decoding; milliseconds per clip. |
-| `controlled_test/` | Reproduces the fitted-estimator experiment of Section 3.1 and Appendix F (3 x 81 linear filter, five seeds): `python run.py SEED` for seeds 0 to 4, then `python summarise.py`. `hold_sequences.json` holds the measured hold patterns transplanted onto the synthetic scenes. |
-| `timing/` | Per-clip timing tables for the 51 clips: durations, decode and presentation times, composition offsets, and the per-clip summary. |
+| `controlled_test/` | Reproduces the controlled test of Section 3.1 and Table 1 (3 x 81 linear filter, five seeds): `python run.py SEED` for seeds 0 to 4, then `python summarise.py`. `hold_sequences.json` holds the measured hold patterns transplanted onto the synthetic scenes. |
+| `timing/` | Format of the per-clip timing tables, which are released with the clips and can be regenerated from any clip with the screening tool (`timing/README.md`). |
 
 ## Screening tool
 
@@ -60,8 +60,8 @@ Requires numpy, scipy and scikit-image. About 45 seconds per seed on one CPU cor
 Reports, for each violation and blur length, the PSNR cost of the conventional
 label against a correctly centred one, measured on identical inputs.
 
-Expected output (mean ± standard deviation over the five seeds; paper Section 3.1
-and Appendix F):
+Expected output (mean ± standard deviation over the five seeds; paper Section 3.1,
+Table 1):
 
 | Condition | Blur length | Cost (dB) | Learned shift |
 |---|---|---|---|
@@ -73,10 +73,11 @@ and Appendix F):
 
 ## Data
 
-The CADENCE-51 clips and their per-clip timing tables are released with the
-camera-ready version of the paper. Faces and vehicle plates are blurred and the
-released files carry the video track only; each file's sample-duration table and
-frame count are preserved from the camera original.
+The 51 iPhone-HighFPS clips and their per-clip timing tables are released with the
+camera-ready version of the paper. Faces and vehicle plates are blurred, the files
+carry the video track only, and each file's sample-duration table and frame count
+are preserved from the camera original, so every timing result can be reproduced
+from the released files with the screening tool.
 
 ## Citation
 

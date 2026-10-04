@@ -178,7 +178,9 @@ def main():
     if not rows:
         print("no readable clips found"); return
 
-    cols = list(rows[0].keys())
+    cols = []                      # union of fields, first-seen order: rows can differ
+    for r in rows:
+        cols += [c for c in r if c not in cols]
     w = {c: max(len(c), max(len(str(r.get(c, ""))) for r in rows)) for c in cols}
     print("  ".join(c.ljust(w[c]) for c in cols))
     for r in rows:
@@ -191,7 +193,8 @@ def main():
               f"{1 / (2 * (a.window - 1)):.4f} of its blur length, even on uniform clips")
     if a.csv:
         with open(a.csv, "w", newline="") as fh:
-            wr = csv.DictWriter(fh, fieldnames=cols); wr.writeheader(); wr.writerows(rows)
+            wr = csv.DictWriter(fh, fieldnames=cols, restval="")
+            wr.writeheader(); wr.writerows(rows)
         print(f"written: {a.csv}")
 
 
